@@ -1,0 +1,115 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Skin Care Routine</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f4f4f4;
+    }
+    h1 {
+      text-align: center;
+    }
+    .routine {
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 30px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+  <h1>My Daily Skin Care Routine</h1>
+  <div class="routine" id="routine"></div>
+
+  <h2>Products and Uses</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Function</th>
+        <th>Recommended Use</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Retinoína 0.05%</td><td>Renovación celular</td><td>Solo noche, cada 3 días</td></tr>
+      <tr><td>A-Derma Epitheliale AH Ultra</td><td>Reparadora post tratamientos</td><td>Días de dermaroller o ácidos</td></tr>
+      <tr><td>Frescogel Aloe Vera</td><td>Calmante y refrescante</td><td>Post sol, post dermaroller</td></tr>
+      <tr><td>Cicatricure Antiedad</td><td>Antienvejecimiento</td><td>Mañana y noche, si no hay ácido</td></tr>
+      <tr><td>Platsul-A (Vitamina A)</td><td>Regenerador</td><td>De noche, en cicatrices</td></tr>
+      <tr><td>Cortifil</td><td>Anti inflamatorio</td><td>En caso de irritación o brote</td></tr>
+      <tr><td>Ducray Melascreen</td><td>Despigmmentante</td><td>De noche, días sin retinoína</td></tr>
+      <tr><td>Nivea 5en1 Facial</td><td>Hidratante básico</td><td>Mañana, o cuando no se usa otro</td></tr>
+      <tr><td>Exomega Control</td><td>Hidratante calmante</td><td>Para días de sensibilidad</td></tr>
+      <tr><td>Avène Hyaluron Activ B3</td><td>Hidratación y firmeza</td><td>Mañana o noche, según la rutina</td></tr>
+    </tbody>
+  </table>
+
+  <script>
+    const routines = {
+      "Sunday": {
+        title: "Domingo - Hidratación Profunda",
+        morning: "Limpieza suave, Nivea Facial 5en1, protector solar",
+        night: "Avène Hyaluron Activ B3 + Cicatricure + A-Derma si se siente seca"
+      },
+      "Monday": {
+        title: "Lunes - Retinoína y Reparación",
+        morning: "Limpieza, Exomega Control o Nivea, protector solar",
+        night: "Retinoína en zona de cicatrices, A-Derma en zonas sensibles"
+      },
+      "Tuesday": {
+        title: "Martes - Hidratación + Despigmentación",
+        morning: "Limpieza, Avene Hyaluron B3, protector solar",
+        night: "Melascreen + Cicatricure, A-Derma si fue pesado"
+      },
+      "Wednesday": {
+        title: "Miércoles - Dermaroller y Calma",
+        morning: "Limpieza, Nivea o Exomega, protector solar",
+        night: "Dermaroller + A-Derma + Aloe Vera (no usar retinoína ni ácidos)"
+      },
+      "Thursday": {
+        title: "Jueves - Hidratación y Cicatrices",
+        morning: "Limpieza, Avène Hyaluron Activ B3, protector solar",
+        night: "Cicatricure + Platsul-A en zonas profundas"
+      },
+      "Friday": {
+        title: "Viernes - Retinoína + Antiedad",
+        morning: "Limpieza, Nivea Facial, protector solar",
+        night: "Retinoína + A-Derma o Aloe si irrita"
+      },
+      "Saturday": {
+        title: "Sábado - Limpieza profunda y reparación",
+        morning: "Limpieza, Cicatricure, protector solar",
+        night: "Melascreen o Avene B3 + Platsul-A"
+      }
+    };
+
+    const today = new Date().toLocaleDateString('en-US', { weekday: 'long' });
+    const routine = routines[today] || { title: "No routine found", morning: "", night: "" };
+
+    document.getElementById("routine").innerHTML = `
+      <h2>${routine.title}</h2>
+      <p><strong>Mañana:</strong> ${routine.morning}</p>
+      <p><strong>Noche:</strong> ${routine.night}</p>
+    `;
+  </script>
+</body>
+</html>
