@@ -1,115 +1,189 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Skin Care Routine</title>
+  <title>Skincare Routine</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      padding: 20px;
-      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      background-color: #f7f7f7;
     }
-    h1 {
+    header {
+      background-color: #2c3e50;
+      color: white;
+      padding: 1rem;
       text-align: center;
     }
-    .routine {
+    .day-selector {
+      display: flex;
+      justify-content: space-around;
+      background: #ecf0f1;
+      padding: 1rem;
+      flex-wrap: wrap;
+    }
+    .day-button {
+      border: none;
+      background-color: #3498db;
+      color: white;
+      padding: 0.5rem 1rem;
+      margin: 0.25rem;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .day-button.active {
+      background-color: #1abc9c;
+    }
+    .routine-container {
+      padding: 2rem;
       background-color: white;
-      padding: 20px;
-      border-radius: 8px;
-      margin-bottom: 30px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .routine-section {
+      margin-bottom: 2rem;
     }
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 20px;
     }
     th, td {
+      padding: 0.75rem;
       border: 1px solid #ddd;
-      padding: 8px;
       text-align: left;
     }
     th {
-      background-color: #f2f2f2;
+      background-color: #3498db;
+      color: white;
+    }
+    @media (max-width: 600px) {
+      .day-selector {
+        flex-direction: column;
+        align-items: center;
+      }
     }
   </style>
 </head>
 <body>
-  <h1>My Daily Skin Care Routine</h1>
-  <div class="routine" id="routine"></div>
-
-  <h2>Products and Uses</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>Product</th>
-        <th>Function</th>
-        <th>Recommended Use</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td>Retinoína 0.05%</td><td>Renovación celular</td><td>Solo noche, cada 3 días</td></tr>
-      <tr><td>A-Derma Epitheliale AH Ultra</td><td>Reparadora post tratamientos</td><td>Días de dermaroller o ácidos</td></tr>
-      <tr><td>Frescogel Aloe Vera</td><td>Calmante y refrescante</td><td>Post sol, post dermaroller</td></tr>
-      <tr><td>Cicatricure Antiedad</td><td>Antienvejecimiento</td><td>Mañana y noche, si no hay ácido</td></tr>
-      <tr><td>Platsul-A (Vitamina A)</td><td>Regenerador</td><td>De noche, en cicatrices</td></tr>
-      <tr><td>Cortifil</td><td>Anti inflamatorio</td><td>En caso de irritación o brote</td></tr>
-      <tr><td>Ducray Melascreen</td><td>Despigmmentante</td><td>De noche, días sin retinoína</td></tr>
-      <tr><td>Nivea 5en1 Facial</td><td>Hidratante básico</td><td>Mañana, o cuando no se usa otro</td></tr>
-      <tr><td>Exomega Control</td><td>Hidratante calmante</td><td>Para días de sensibilidad</td></tr>
-      <tr><td>Avène Hyaluron Activ B3</td><td>Hidratación y firmeza</td><td>Mañana o noche, según la rutina</td></tr>
-    </tbody>
-  </table>
-
+  <header>
+    <h1>My Skincare Routine</h1>
+  </header>
+  <div class="day-selector" id="daySelector"></div>
+  <div class="routine-container" id="routineContainer"></div>
+  <div class="routine-container">
+    <h2>Product Table</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Description</th>
+          <th>When to Use</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody id="productTable">
+        <!-- Will be populated by JS -->
+      </tbody>
+    </table>
+  </div>
   <script>
     const routines = {
-      "Sunday": {
-        title: "Domingo - Hidratación Profunda",
-        morning: "Limpieza suave, Nivea Facial 5en1, protector solar",
-        night: "Avène Hyaluron Activ B3 + Cicatricure + A-Derma si se siente seca"
+      Monday: {
+        theme: "Deep Cleansing",
+        morning: [
+          { product: "Nivea 5 en 1", time: "Leave on for 1 min then rinse" },
+          { product: "Melascreen", time: "Apply and leave on" },
+          { product: "Sunscreen", time: "Apply and leave on" }
+        ],
+        night: [
+          { product: "Retinoína 0.05%", time: "Leave on overnight" },
+          { product: "A-Derma AH Ultra", time: "Apply after 30 min" }
+        ]
       },
-      "Monday": {
-        title: "Lunes - Retinoína y Reparación",
-        morning: "Limpieza, Exomega Control o Nivea, protector solar",
-        night: "Retinoína en zona de cicatrices, A-Derma en zonas sensibles"
+      Wednesday: {
+        theme: "Dermaroller Day",
+        morning: [
+          { product: "Gentle Cleanser", time: "Rinse off after 1 min" },
+          { product: "Sunscreen", time: "Apply and leave on" }
+        ],
+        night: [
+          { product: "Use Dermaroller (0.5mm)", time: "Roll for 5-10 mins" },
+          { product: "Aloe Vera Gel", time: "Apply right after roller" },
+          { product: "Vitamina A (Platsul-A)", time: "Leave on overnight" }
+        ]
       },
-      "Tuesday": {
-        title: "Martes - Hidratación + Despigmentación",
-        morning: "Limpieza, Avene Hyaluron B3, protector solar",
-        night: "Melascreen + Cicatricure, A-Derma si fue pesado"
-      },
-      "Wednesday": {
-        title: "Miércoles - Dermaroller y Calma",
-        morning: "Limpieza, Nivea o Exomega, protector solar",
-        night: "Dermaroller + A-Derma + Aloe Vera (no usar retinoína ni ácidos)"
-      },
-      "Thursday": {
-        title: "Jueves - Hidratación y Cicatrices",
-        morning: "Limpieza, Avène Hyaluron Activ B3, protector solar",
-        night: "Cicatricure + Platsul-A en zonas profundas"
-      },
-      "Friday": {
-        title: "Viernes - Retinoína + Antiedad",
-        morning: "Limpieza, Nivea Facial, protector solar",
-        night: "Retinoína + A-Derma o Aloe si irrita"
-      },
-      "Saturday": {
-        title: "Sábado - Limpieza profunda y reparación",
-        morning: "Limpieza, Cicatricure, protector solar",
-        night: "Melascreen o Avene B3 + Platsul-A"
+      Friday: {
+        theme: "Acid Night",
+        morning: [
+          { product: "Nivea 5 en 1", time: "Leave on for 1 min then rinse" },
+          { product: "Melascreen", time: "Apply and leave on" },
+          { product: "Sunscreen", time: "Apply and leave on" }
+        ],
+        night: [
+          { product: "Acid treatment (if using one)", time: "Leave on 10-15 mins then moisturize" },
+          { product: "A-Derma AH Ultra", time: "Apply and leave on overnight" }
+        ]
       }
     };
 
-    const today = new Date().toLocaleDateString('en-US', { weekday: 'long' });
-    const routine = routines[today] || { title: "No routine found", morning: "", night: "" };
+    const allDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
-    document.getElementById("routine").innerHTML = `
-      <h2>${routine.title}</h2>
-      <p><strong>Mañana:</strong> ${routine.morning}</p>
-      <p><strong>Noche:</strong> ${routine.night}</p>
-    `;
+    const productList = [
+      { name: "Cortifil", desc: "Anti-inflammatory cream", when: "As needed", notes: "Do not use long-term" },
+      { name: "Cicatricure Anti-Age", desc: "Anti-wrinkle treatment", when: "Morning or night", notes: "Good for fine lines" },
+      { name: "Melascreen (Ducray)", desc: "Brightening, depigmenting", when: "Morning", notes: "Use with sunscreen" },
+      { name: "Nivea Facial 5 en 1", desc: "Cleansing and exfoliating", when: "Morning", notes: "Rinse off" },
+      { name: "Retinoína 0.05%", desc: "Deep treatment for texture", when: "Night", notes: "Use every other night" },
+      { name: "Aloe Vera Gel (Frescogel)", desc: "Calms and hydrates", when: "Night", notes: "Post-roller" },
+      { name: "A-Derma Epitheliale AH Ultra", desc: "Skin barrier repair", when: "Night", notes: "Use after actives" },
+      { name: "Vitamina A (Platsul-A)", desc: "Heals skin post-treatment", when: "Night", notes: "Use after roller" },
+      { name: "Exomega Control", desc: "Hydration for sensitive skin", when: "Morning/Night", notes: "Very gentle" },
+      { name: "Avène Hyaluron Activ B3", desc: "Hydration + anti-aging", when: "Morning or night", notes: "Use before moisturizer" }
+    ];
+
+    function renderRoutine(day) {
+      const routine = routines[day] || { theme: "Rest Day", morning: [], night: [] };
+      document.getElementById("routineContainer").innerHTML = `
+        <div class="routine-section">
+          <h2>${day} - ${routine.theme}</h2>
+          <h3>Morning</h3>
+          <ul>
+            ${routine.morning.map(item => `<li><strong>${item.product}</strong>: ${item.time}</li>`).join('') || '<li>No routine</li>'}
+          </ul>
+          <h3>Night</h3>
+          <ul>
+            ${routine.night.map(item => `<li><strong>${item.product}</strong>: ${item.time}</li>`).join('') || '<li>No routine</li>'}
+          </ul>
+        </div>`;
+
+      document.querySelectorAll(".day-button").forEach(btn => btn.classList.remove("active"));
+      document.querySelector(`.day-button[data-day='${day}']`).classList.add("active");
+    }
+
+    function populateDays() {
+      const container = document.getElementById("daySelector");
+      container.innerHTML = allDays.map(day => `<button class="day-button" data-day="${day}">${day}</button>`).join('');
+      container.querySelectorAll(".day-button").forEach(btn => {
+        btn.addEventListener("click", () => renderRoutine(btn.dataset.day));
+      });
+    }
+
+    function populateProductTable() {
+      document.getElementById("productTable").innerHTML = productList.map(p => `
+        <tr>
+          <td>${p.name}</td>
+          <td>${p.desc}</td>
+          <td>${p.when}</td>
+          <td>${p.notes}</td>
+        </tr>
+      `).join('');
+    }
+
+    populateDays();
+    populateProductTable();
+    const today = new Date().toLocaleDateString('en-US', { weekday: 'long' });
+    renderRoutine(today);
   </script>
 </body>
 </html>
+
