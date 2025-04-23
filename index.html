@@ -81,9 +81,7 @@
           <th>Notes</th>
         </tr>
       </thead>
-      <tbody id="productTable">
-        <!-- Will be populated by JS -->
-      </tbody>
+      <tbody id="productTable"></tbody>
     </table>
   </div>
   <script>
@@ -100,6 +98,18 @@
           { product: "A-Derma AH Ultra", time: "Apply after 30 min" }
         ]
       },
+      Tuesday: {
+        theme: "Hydration & Recovery",
+        morning: [
+          { product: "Gentle Cleanser", time: "Rinse off after 1 min" },
+          { product: "Avène Hyaluron Activ B3", time: "Apply and leave on" },
+          { product: "Sunscreen", time: "Apply and leave on" }
+        ],
+        night: [
+          { product: "Cicatricure Anti-Age", time: "Apply and leave on" },
+          { product: "A-Derma AH Ultra", time: "Apply and leave on overnight" }
+        ]
+      },
       Wednesday: {
         theme: "Dermaroller Day",
         morning: [
@@ -112,6 +122,18 @@
           { product: "Vitamina A (Platsul-A)", time: "Leave on overnight" }
         ]
       },
+      Thursday: {
+        theme: "Brightening",
+        morning: [
+          { product: "Nivea 5 en 1", time: "Leave on for 1 min then rinse" },
+          { product: "Melascreen", time: "Apply and leave on" },
+          { product: "Sunscreen", time: "Apply and leave on" }
+        ],
+        night: [
+          { product: "Cicatricure Anti-Age", time: "Apply and leave on" },
+          { product: "A-Derma AH Ultra", time: "Apply and leave on overnight" }
+        ]
+      },
       Friday: {
         theme: "Acid Night",
         morning: [
@@ -121,6 +143,29 @@
         ],
         night: [
           { product: "Acid treatment (if using one)", time: "Leave on 10-15 mins then moisturize" },
+          { product: "A-Derma AH Ultra", time: "Apply and leave on overnight" }
+        ]
+      },
+      Saturday: {
+        theme: "Nourishment & Repair",
+        morning: [
+          { product: "Gentle Cleanser", time: "Rinse off after 1 min" },
+          { product: "Avène Hyaluron Activ B3", time: "Apply and leave on" },
+          { product: "Sunscreen", time: "Apply and leave on" }
+        ],
+        night: [
+          { product: "Cicatricure Anti-Age", time: "Apply and leave on" },
+          { product: "Exomega Control", time: "Apply and leave on overnight" }
+        ]
+      },
+      Sunday: {
+        theme: "Rest & Hydration",
+        morning: [
+          { product: "Gentle Cleanser", time: "Rinse off after 1 min" },
+          { product: "Sunscreen", time: "Apply and leave on" }
+        ],
+        night: [
+          { product: "Exomega Control", time: "Apply and leave on overnight" },
           { product: "A-Derma AH Ultra", time: "Apply and leave on overnight" }
         ]
       }
@@ -186,4 +231,3 @@
   </script>
 </body>
 </html>
-
