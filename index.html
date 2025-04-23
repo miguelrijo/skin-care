@@ -39,7 +39,6 @@
     .routine-container {
       padding: 2rem;
       background-color: white;
-      touch-action: pan-y;
     }
     .routine-section {
       margin-bottom: 2rem;
@@ -59,7 +58,8 @@
     }
     @media (max-width: 600px) {
       .day-selector {
-        display: none;
+        flex-direction: column;
+        align-items: center;
       }
     }
   </style>
@@ -68,8 +68,9 @@
   <header>
     <h1>My Skincare Routine</h1>
   </header>
-  <div class="day-selector" id="daySelector"></div>
+
   <div class="routine-container" id="routineContainer"></div>
+    <div class="day-selector" id="daySelector"></div>
   <div class="routine-container">
     <h2>Product Table</h2>
     <table>
@@ -98,7 +99,18 @@
           { product: "A-Derma AH Ultra", time: "Apply after 30 min" }
         ]
       },
-      Tuesday: { theme: "Rest Day", morning: [], night: [] },
+      Tuesday: {
+        theme: "Hydration & Recovery",
+        morning: [
+          { product: "Gentle Cleanser", time: "Rinse off after 1 min" },
+          { product: "Avène Hyaluron Activ B3", time: "Apply and leave on" },
+          { product: "Sunscreen", time: "Apply and leave on" }
+        ],
+        night: [
+          { product: "Cicatricure Anti-Age", time: "Apply and leave on" },
+          { product: "A-Derma AH Ultra", time: "Apply and leave on overnight" }
+        ]
+      },
       Wednesday: {
         theme: "Dermaroller Day",
         morning: [
@@ -111,7 +123,18 @@
           { product: "Vitamina A (Platsul-A)", time: "Leave on overnight" }
         ]
       },
-      Thursday: { theme: "Rest Day", morning: [], night: [] },
+      Thursday: {
+        theme: "Brightening",
+        morning: [
+          { product: "Nivea 5 en 1", time: "Leave on for 1 min then rinse" },
+          { product: "Melascreen", time: "Apply and leave on" },
+          { product: "Sunscreen", time: "Apply and leave on" }
+        ],
+        night: [
+          { product: "Cicatricure Anti-Age", time: "Apply and leave on" },
+          { product: "A-Derma AH Ultra", time: "Apply and leave on overnight" }
+        ]
+      },
       Friday: {
         theme: "Acid Night",
         morning: [
@@ -124,8 +147,29 @@
           { product: "A-Derma AH Ultra", time: "Apply and leave on overnight" }
         ]
       },
-      Saturday: { theme: "Rest Day", morning: [], night: [] },
-      Sunday: { theme: "Rest Day", morning: [], night: [] }
+      Saturday: {
+        theme: "Nourishment & Repair",
+        morning: [
+          { product: "Gentle Cleanser", time: "Rinse off after 1 min" },
+          { product: "Avène Hyaluron Activ B3", time: "Apply and leave on" },
+          { product: "Sunscreen", time: "Apply and leave on" }
+        ],
+        night: [
+          { product: "Cicatricure Anti-Age", time: "Apply and leave on" },
+          { product: "Exomega Control", time: "Apply and leave on overnight" }
+        ]
+      },
+      Sunday: {
+        theme: "Rest & Hydration",
+        morning: [
+          { product: "Gentle Cleanser", time: "Rinse off after 1 min" },
+          { product: "Sunscreen", time: "Apply and leave on" }
+        ],
+        night: [
+          { product: "Exomega Control", time: "Apply and leave on overnight" },
+          { product: "A-Derma AH Ultra", time: "Apply and leave on overnight" }
+        ]
+      }
     };
 
     const allDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
@@ -143,9 +187,6 @@
       { name: "Avène Hyaluron Activ B3", desc: "Hydration + anti-aging", when: "Morning or night", notes: "Use before moisturizer" }
     ];
 
-    let currentDayIndex = new Date().getDay() - 1;
-    if (currentDayIndex < 0) currentDayIndex = 6;
-
     function renderRoutine(day) {
       const routine = routines[day] || { theme: "Rest Day", morning: [], night: [] };
       document.getElementById("routineContainer").innerHTML = `
@@ -162,18 +203,14 @@
         </div>`;
 
       document.querySelectorAll(".day-button").forEach(btn => btn.classList.remove("active"));
-      const activeBtn = document.querySelector(`.day-button[data-day='${day}']`);
-      if (activeBtn) activeBtn.classList.add("active");
+      document.querySelector(`.day-button[data-day='${day}']`).classList.add("active");
     }
 
     function populateDays() {
       const container = document.getElementById("daySelector");
       container.innerHTML = allDays.map(day => `<button class="day-button" data-day="${day}">${day}</button>`).join('');
       container.querySelectorAll(".day-button").forEach(btn => {
-        btn.addEventListener("click", () => {
-          currentDayIndex = allDays.indexOf(btn.dataset.day);
-          renderRoutine(btn.dataset.day);
-        });
+        btn.addEventListener("click", () => renderRoutine(btn.dataset.day));
       });
     }
 
@@ -188,23 +225,10 @@
       `).join('');
     }
 
-    const container = document.getElementById("routineContainer");
-    let startX = 0;
-    container.addEventListener("touchstart", e => startX = e.touches[0].clientX);
-    container.addEventListener("touchend", e => {
-      const endX = e.changedTouches[0].clientX;
-      if (startX - endX > 50) {
-        currentDayIndex = (currentDayIndex + 1) % allDays.length;
-        renderRoutine(allDays[currentDayIndex]);
-      } else if (endX - startX > 50) {
-        currentDayIndex = (currentDayIndex - 1 + allDays.length) % allDays.length;
-        renderRoutine(allDays[currentDayIndex]);
-      }
-    });
-
     populateDays();
     populateProductTable();
-    renderRoutine(allDays[currentDayIndex]);
+    const today = new Date().toLocaleDateString('en-US', { weekday: 'long' });
+    renderRoutine(today);
   </script>
 </body>
 </html>
